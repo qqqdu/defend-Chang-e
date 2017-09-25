@@ -4,7 +4,7 @@ class Change extends egret.Sprite{
     public life = 1; //是否存活
     public hitRabbit = 0;
     public direction = 0;
-    private cakes : Array<Cake> = [];
+    public cakes : Array<Cake> = [];
     private speed:number = 10;
     public constructor(){
         super();
@@ -28,9 +28,6 @@ class Change extends egret.Sprite{
             var now = timeStamp;
             var pass = now - this._time;
             this._time = now;
-            // gameBody.listenObj.map((item)=>{
-            //     item['fun'].call(item['that']);
-            // })
             this.moveShoot();
             return false;
     }
@@ -38,11 +35,7 @@ class Change extends egret.Sprite{
         let cake = new Cake(this.direction,this);
         this.addChild(cake);
         this.cakes.push(cake);
-        // console.log(this.cakes.length);
-        // gameBody.listenObj.push({
-        //     fun : this.moveShoot,
-        //     that : this
-        // });
+
     }
     public moveShoot(){
         this.cakes.forEach((obj,index)=>{
@@ -71,11 +64,15 @@ class Change extends egret.Sprite{
     }
     private checkHit(obj,index){
         let globel = obj.localToGlobal();
+        globel.y-=gameBody.topSet;
         if(globel.x<0||globel.y<0||globel.x>gameBody.relWidth||globel.y>gameBody.relHeight){
-            this.removeChild(obj);
-            this.cakes.splice(index,1);
+            this.cakeKilled(obj,index);
         }
         return true;
+    }
+    public cakeKilled(obj,index){
+        this.removeChild(obj);
+        this.cakes.splice(index,1);
     }
 
 }

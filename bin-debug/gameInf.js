@@ -11,27 +11,23 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var Cake = (function (_super) {
-    __extends(Cake, _super);
-    function Cake(direction, parent) {
+var gameInf = (function (_super) {
+    __extends(gameInf, _super);
+    function gameInf() {
         var _this = _super.call(this) || this;
-        _this.width = 10;
-        _this.height = 10;
-        _this.direction = direction;
-        _this.parent = parent;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawCake, _this);
         return _this;
     }
-    Cake.prototype.drawCake = function () {
+    gameInf.prototype.drawCake = function () {
         var back = new egret.Sprite();
         back.graphics.beginFill(0xffcccc);
-        back.graphics.drawRect(0, 0, this.width, this.height);
+        back.graphics.drawRect(0, 0, this.stage.stageWidth, gameBody.relHeight / 2);
         back.graphics.endFill();
-        this.x = this.parent.width / 2 - this.width / 2;
-        this.y = this.parent.width / 2 - this.height / 2;
+        this.x = 0;
+        this.y = 0;
         this.addChild(back);
     };
-    return Cake;
+    return gameInf;
 }(egret.Sprite));
-__reflect(Cake.prototype, "Cake");
-//# sourceMappingURL=cakes.js.map
+__reflect(gameInf.prototype, "gameInf");
+//# sourceMappingURL=gameInf.js.map

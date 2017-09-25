@@ -1,11 +1,16 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var Change = (function (_super) {
     __extends(Change, _super);
     function Change() {
@@ -16,7 +21,7 @@ var Change = (function (_super) {
         _this.hitRabbit = 0;
         _this.direction = 0;
         _this.cakes = [];
-        _this.speed = 5;
+        _this.speed = 10;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawChange, _this);
         egret.startTick(_this.onTicker, _this);
         return _this;
@@ -37,9 +42,6 @@ var Change = (function (_super) {
         var now = timeStamp;
         var pass = now - this._time;
         this._time = now;
-        // gameBody.listenObj.map((item)=>{
-        //     item['fun'].call(item['that']);
-        // })
         this.moveShoot();
         return false;
     };
@@ -47,11 +49,6 @@ var Change = (function (_super) {
         var cake = new Cake(this.direction, this);
         this.addChild(cake);
         this.cakes.push(cake);
-        // console.log(this.cakes.length);
-        // gameBody.listenObj.push({
-        //     fun : this.moveShoot,
-        //     that : this
-        // });
     };
     Change.prototype.moveShoot = function () {
         var _this = this;
@@ -80,11 +77,15 @@ var Change = (function (_super) {
     };
     Change.prototype.checkHit = function (obj, index) {
         var globel = obj.localToGlobal();
+        globel.y -= gameBody.topSet;
         if (globel.x < 0 || globel.y < 0 || globel.x > gameBody.relWidth || globel.y > gameBody.relHeight) {
-            this.removeChild(obj);
-            this.cakes.splice(index, 1);
+            this.cakeKilled(obj, index);
         }
         return true;
+    };
+    Change.prototype.cakeKilled = function (obj, index) {
+        this.removeChild(obj);
+        this.cakes.splice(index, 1);
     };
     return Change;
 }(egret.Sprite));
