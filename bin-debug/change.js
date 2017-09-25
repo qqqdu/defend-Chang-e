@@ -1,16 +1,11 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Change = (function (_super) {
     __extends(Change, _super);
     function Change() {
@@ -22,6 +17,7 @@ var Change = (function (_super) {
         _this.direction = 0;
         _this.cakes = [];
         _this.speed = 10;
+        _this.image = new egret.Bitmap();
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.drawChange, _this);
         egret.startTick(_this.onTicker, _this);
         return _this;
@@ -33,7 +29,19 @@ var Change = (function (_super) {
         back.graphics.endFill();
         this.x = gameBody.relWidth / 2 - this.width / 2;
         this.y = gameBody.relHeight / 2 - this.height / 2;
-        this.addChild(back);
+        //this.addChild(back);
+        this.addImage();
+    };
+    Change.prototype.addImage = function () {
+        var width, height;
+        this.image.texture = RES.getRes('change_png');
+        this.image.width = this.image.width / 2;
+        this.image.height = this.image.height / 2;
+        width = this.image.width;
+        height = this.image.height;
+        this.image.x = this.width / 2 - this.image.width / 2;
+        this.image.y = this.height / 2 - this.image.height / 1.5;
+        this.addChild(this.image);
     };
     Change.prototype.onTicker = function (timeStamp) {
         if (!this._time) {

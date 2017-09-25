@@ -6,6 +6,7 @@ class Change extends egret.Sprite{
     public direction = 0;
     public cakes : Array<Cake> = [];
     private speed:number = 10;
+    private image:egret.Bitmap = new egret.Bitmap();
     public constructor(){
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawChange,this);
@@ -18,9 +19,21 @@ class Change extends egret.Sprite{
         back.graphics.endFill();
         this.x  = gameBody.relWidth/2-this.width/2;
         this.y = gameBody.relHeight/2-this.height/2;
-        this.addChild(back);
+        //this.addChild(back);
+        this.addImage();
     }
-     private _time;
+    private addImage(){
+        let width,height;
+        this.image.texture = RES.getRes('change_png');
+        this.image.width = this.image.width/2;
+        this.image.height = this.image.height/2;
+        width = this.image.width;
+        height = this.image.height;
+        this.image.x = this.width/2 - this.image.width/2;
+        this.image.y = this.height/2 - this.image.height/1.5;
+        this.addChild(this.image);
+    }
+    private _time;
     private onTicker(timeStamp:number) {
             if(!this._time) {
                 this._time = timeStamp;

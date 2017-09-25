@@ -30,8 +30,8 @@ var Config = (function () {
                 height: max
             }];
     };
-    Config.cache = {};
     return Config;
 }());
+Config.cache = {};
 __reflect(Config.prototype, "Config");
 //# sourceMappingURL=config.js.map

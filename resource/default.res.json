@@ -1,23 +1,50 @@
 {
-	"groups":[
-	{
-		"keys":"bg_jpg,egret_icon_png,description_json",
-		"name":"preload"
-	}],
-	"resources":[
-	{
-		"name":"bg_jpg",
-		"type":"image",
-		"url":"assets/bg.jpg"
-	},
-	{
-		"name":"egret_icon_png",
-		"type":"image",
-		"url":"assets/egret_icon.png"
-	},
-	{
-		"name":"description_json",
-		"type":"json",
-		"url":"config/description.json"
-	}]
+	"groups": [
+		{
+			"keys": "bg_jpg,egret_icon_png,description_json,right_json,right_png,badLeft_json,badLeft_png,change_png",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "egret_icon_png",
+			"type": "image",
+			"url": "assets/egret_icon.png"
+		},
+		{
+			"name": "description_json",
+			"type": "json",
+			"url": "config/description.json"
+		},
+		{
+			"name": "right_json",
+			"type": "json",
+			"url": "assets/right.json"
+		},
+		{
+			"name": "right_png",
+			"type": "image",
+			"url": "assets/right.png"
+		},
+		{
+			"name": "badLeft_json",
+			"type": "json",
+			"url": "assets/badLeft.json"
+		},
+		{
+			"name": "badLeft_png",
+			"type": "image",
+			"url": "assets/badLeft.png"
+		},
+		{
+			"name": "change_png",
+			"type": "image",
+			"url": "assets/change.png"
+		}
+	]
 }
