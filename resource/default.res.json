@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,right_json,right_png,badLeft_json,badLeft_png,change_png",
+			"keys": "bg_jpg,egret_icon_png,description_json,change_png,music_mp3,cake_PNG,back_PNG,goodL_json,badL_json,badL_png,badLeft_png,goodL_png,hit_mp3",
 			"name": "preload"
 		}
 	],
@@ -22,19 +22,39 @@
 			"url": "config/description.json"
 		},
 		{
-			"name": "right_json",
-			"type": "json",
-			"url": "assets/right.json"
-		},
-		{
-			"name": "right_png",
+			"name": "change_png",
 			"type": "image",
-			"url": "assets/right.png"
+			"url": "assets/change.png"
 		},
 		{
-			"name": "badLeft_json",
+			"name": "music_mp3",
+			"type": "sound",
+			"url": "assets/music.mp3"
+		},
+		{
+			"name": "cake_PNG",
+			"type": "image",
+			"url": "assets/cake.PNG"
+		},
+		{
+			"name": "back_PNG",
+			"type": "image",
+			"url": "assets/back.PNG"
+		},
+		{
+			"name": "goodL_json",
 			"type": "json",
-			"url": "assets/badLeft.json"
+			"url": "assets/goodL.json"
+		},
+		{
+			"name": "badL_json",
+			"type": "json",
+			"url": "assets/badL.json"
+		},
+		{
+			"name": "badL_png",
+			"type": "image",
+			"url": "assets/badL.png"
 		},
 		{
 			"name": "badLeft_png",
@@ -42,9 +62,14 @@
 			"url": "assets/badLeft.png"
 		},
 		{
-			"name": "change_png",
+			"name": "goodL_png",
 			"type": "image",
-			"url": "assets/change.png"
+			"url": "assets/goodL.png"
+		},
+		{
+			"name": "hit_mp3",
+			"type": "sound",
+			"url": "assets/hit.mp3"
 		}
 	]
 }

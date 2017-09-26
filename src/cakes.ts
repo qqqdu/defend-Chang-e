@@ -1,9 +1,10 @@
 class Cake extends egret.Sprite{
-    public width:number = 10;
-    public height:number = 10;
+    public width:number = 30;
+    public height:number = 30;
     public direction:number;
     public parent:Change;
     public text;
+    private image:egret.Bitmap = new egret.Bitmap();
     public constructor(direction,parent){
         super();
         this.direction = direction;
@@ -17,6 +18,16 @@ class Cake extends egret.Sprite{
         back.graphics.endFill();
         this.x  = this.parent.width/2-this.width/2;
         this.y = this.parent.width/2-this.height/2;
-        this.addChild(back);
+        //this.addChild(back);\
+        this.addImage();
+    }
+    private addImage(){
+        let width,height;
+        this.image.texture = RES.getRes('cake_PNG');
+        this.image.width = this.width;
+        this.image.height = this.height;
+        this.image.x = 0;
+        this.image.y =  0;
+        this.addChild(this.image);
     }
 }

@@ -7,7 +7,7 @@ class gameInf extends egret.Sprite{
     public constructor(){
         super();
         
-        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawCake,this);
+    //    this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawCake,this);
     }
     private drawCake(){
         var back: egret.Shape = new egret.Sprite();

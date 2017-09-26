@@ -5,7 +5,9 @@ class gameBody extends egret.Sprite{
     private duration : number = 1000;
     private timer : egret.Timer;
     private back : any;
+    private LoadingMusic:LoadingMusic;
     private rabbits: Array<Rabbit>= [];
+    private lockCommon:number;
     static relWidth: number;
     static relHeight: number;
     static listenObj: Array<any> = []; //listen clock function
@@ -19,7 +21,9 @@ class gameBody extends egret.Sprite{
         
         gameBody.relWidth = gameBody.relHeight = 
         this.width  = this.height =  this.stage.stageWidth;
-        this.y = gameBody.topSet= this.stage.stageHeight-this.height;
+        //this.y = gameBody.topSet= this.stage.stageHeight-this.height;
+        this.y = 240;
+        this.LoadingMusic = new LoadingMusic();
         this.drawBack();
         this.addChange();
         this.addDoors();
@@ -28,7 +32,7 @@ class gameBody extends egret.Sprite{
     }
     private drawBack(){
         let back = this.back =  new egret.Sprite();
-        back.graphics.beginFill(0x35414d);
+        back.graphics.beginFill(0x35414d,0);
         back.graphics.drawRect(0,0,this.stage.stageWidth,this.stage.stageWidth);
         back.graphics.endFill();
         back.touchEnabled = true;
@@ -58,16 +62,24 @@ class gameBody extends egret.Sprite{
         this.beginTimer();
     }
     private beginTimer(){
-        this.timer = new egret.Timer(this.duration,0);
-        this.timer.addEventListener(egret.TimerEvent.TIMER,this.addRabbit,this);
-        this.timer.start();
-        this.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(){
-        }, this);
+        // this.timer = new egret.Timer(this.duration,0);
+        // this.timer.addEventListener(egret.TimerEvent.TIMER,this.addRabbit,this);
+        // this.timer.start();
+        // this.addEventListener(egret.TimerEvent.TIMER_COMPLETE,function(){
+        // }, this);
+        this.LoadingMusic.callback = ()=>{
+            this.addRabbit();
+        }
     }
     private addRabbit(){
         let direction = Math.floor(Math.random()*4);
         let type = Math.random()>0.8?true:false;
-        let rabbit = new Rabbit(direction,type);
+        let rabbit = null;
+        if(this.lockCommon===direction){  // last num is this one
+            this.addRabbit();
+        }
+        rabbit = new Rabbit(direction,type);
+        this.lockCommon = direction;
         this.rabbits.push(rabbit);
         this.addChild(rabbit);
     }
@@ -113,7 +125,7 @@ class gameBody extends egret.Sprite{
         return;
     }
     private rabbitKilled(obj,index){
-        if(!obj)
+        if(obj.parent!=this)
             return;
         this.removeChild(obj);
         this.rabbits.splice(index,1);

@@ -7,13 +7,29 @@ class Rabbit extends egret.Sprite{
     public directionConfig;
     public speed=1;
     public type; //true is good rabbit else bad
-    private image:egret.Bitmap = new egret.Bitmap();
     private _mcData;
     private _mcTexture;
+    private configType = {
+        "bad" : {
+            json : "badL.json",
+            png : "badL.png",
+        },
+        "good" : {
+            json : "goodL.json",
+            png : "goodL.png"
+        }
+    };
+    private JSONS:String;
+    private PNGS :String;
     public constructor(direction,type){
         super();
         this.direction = direction;
         this.type = type;
+        if(this.type){
+            [this.JSONS,this.PNGS] = [this.configType["good"].json,this.configType["good"].png];
+        }else{
+            [this.JSONS,this.PNGS] = [this.configType["bad"].json,this.configType["bad"].png];
+        }
         this.initDoorsConfig();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawRabbit,this);
     }
@@ -24,23 +40,9 @@ class Rabbit extends egret.Sprite{
         this.width = this.directionConfig[direction].width;
         this.height = this.directionConfig[direction].height;
         this.addImage();
-        // if(this.type){
-        //     this.drawGood();
-        // }else{
-        //     this.drawBad();
-        // }
     }
     //right_png
     private addImage(){
-        // let width,height;
-        // this.image.texture = RES.getRes('right_json');
-        // this.image.width = this.image.width/2;
-        // this.image.height = this.image.height/2;
-        // width = this.image.width;
-        // height = this.image.height;
-        // this.image.x = this.width/2 - this.image.width/2;
-        // this.image.y = this.height/2 - this.image.height/1.5;
-        // this.addChild(this.image);
         this.load(this.initMovieClip);
     }
     private load(callback:Function):void {
@@ -62,7 +64,7 @@ class Rabbit extends egret.Sprite{
             check();
         }, this);
         loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
-        var request = new egret.URLRequest("../resource/assets/right.png");
+        var request = new egret.URLRequest("./resource/assets/"+this.PNGS);
         loader.load(request);
         
         var loader = new egret.URLLoader();
@@ -74,35 +76,31 @@ class Rabbit extends egret.Sprite{
             check();
         }, this);
         loader.dataFormat = egret.URLLoaderDataFormat.TEXT;
-        var request = new egret.URLRequest("../resource/assets/right.json");
+        var request = new egret.URLRequest("./resource/assets/"+this.JSONS);
         loader.load(request);
     }
     private initMovieClip():void {
         var mcDataFactory = new egret.MovieClipDataFactory(this._mcData, this._mcTexture);
-        var role:egret.MovieClip = new egret.MovieClip(mcDataFactory.generateMovieClipData("good"));
-        role.scaleX = 2;
-        role.scaleY = 2;
+        var role:egret.MovieClip;
+        role =  new egret.MovieClip(mcDataFactory.generateMovieClipData("move"));
+        role.scaleX = .25;
+        role.scaleY = .25;
+        role.width = this.width;
+        role.height = this.height;
+        if(!this.type&&this.direction===3)
+            role.skewY = 180;
+        if(this.type&&this.direction===1)
+            role.skewY = 180;
+        // width = this.image.width;
+        // height = this.image.height;
+        // this.image.x = this.width/2 - this.image.width/2;
+        // this.image.y = this.height/2 - this.image.height/1.5;
         role.frameRate = 6;
         this.addChild(role);
         role.gotoAndPlay(0,-1);
       
     }
-    private drawGood(){
-        let back = this.back = new egret.Sprite();;
-        let direction = this.direction;
-        back.graphics.beginFill(0xffcccc);
-        back.graphics.drawRect(0,0,this.width,this.height);
-        back.graphics.endFill();
-        this.addChild(back);
-    }
-    private drawBad(){
-        let back = this.back = new egret.Sprite();;
-        let direction = this.direction;
-        back.graphics.beginFill(0x212121); 
-        back.graphics.drawRect(0,0,this.width,this.height);
-        back.graphics.endFill();
-        this.addChild(back);
-    }
+ 
     private killAni(){
         this.back.graphics.beginfill(0xc00);
         this.back.graphics.endFill();

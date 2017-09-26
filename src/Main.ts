@@ -113,6 +113,7 @@ class Main extends egret.DisplayObjectContainer {
     private textfield: egret.TextField;
     private gameBody: gameBody;
     private gameInf:gameInf;
+    private background;
     /**
      * 创建游戏场景
      * Create a game scene
@@ -122,6 +123,8 @@ class Main extends egret.DisplayObjectContainer {
        var key:string = "GY_ENRET_PARTTERN";
        this.gameInf = new gameInf();
        this.gameBody = new gameBody();
+       this.background = new backGround();
+       this.addChild(this.background);
        this.addChild(this.gameBody);
        this.addChild(this.gameInf);
        

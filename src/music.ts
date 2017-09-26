@@ -26,27 +26,54 @@
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+const url = './resource/assets/music.mp3';
 
-class LoadingUI extends egret.Sprite {
-    private image = new egret.Bitmap();
+class LoadingMusic extends egret.Sprite {
+    private buffer:Object;
+    private audio =  new window["AudioContext"]();
+    private analyser;
+    public callback:Function;
     public constructor() {
         super();
-        this.createView();
+        this.loadMusic();
     }
-
-    private textField:egret.TextField;
-
-    private createView():void {
-        this.textField = new egret.TextField();
-        this.addChild(this.textField);
-        this.textField.y = 300;
-        this.textField.width = 480;
-        this.textField.height = 100;
-        this.textField.textAlign = "center";
-       // this.textField.x =this.stage.stageWidth/2 - this.textField.width/2;
+    private createMusic():void {
+       
     }
-    
-    public setProgress(current:number, total:number):void {
-        this.textField.text = `Loading...${current}/${total}`;
+    private loadMusic(){
+        let request = new XMLHttpRequest(); //建立一个请求
+        let that = this;
+        let audio =this.audio;
+        request.open('GET', url, true); //配置好请求类型，文件路径等
+        request.responseType = 'arraybuffer'; //配置数据返回类型
+        // 一旦获取完成，对音频进行进一步操作，比如解码
+        request.onload = function() {
+            // that.buffer = request.response;
+            console.log( request.response);
+            audio.decodeAudioData(request.response,function(buffer){
+                that.analyser = audio.createAnalyser();
+                var audioBufferSouceNode = audio.createBufferSource();
+                audioBufferSouceNode.buffer = buffer;
+                audioBufferSouceNode.connect(that.analyser);  //获取频谱
+                that.analyser.connect(audio.destination);  //链接喇叭
+                audioBufferSouceNode.start(0);
+                setInterval(function(){
+			    	that.parseMusic();
+			    },1000);
+            })
+        }
+        request.send();
+    }
+    private parseMusic(){
+        let array = new Uint8Array(this.analyser.frequencyBinCount);
+    	let val;
+		this.analyser.getByteFrequencyData(array);
+		 for(let i = 0;i<array.length;i++){
+		 	val = array[i];
+		 	if(val>240){
+					this.callback&&this.callback();
+					return true;
+			}
+		 }
     }
 }
