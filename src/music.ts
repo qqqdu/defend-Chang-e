@@ -57,9 +57,14 @@ class LoadingMusic extends egret.Sprite {
                 audioBufferSouceNode.connect(that.analyser);  //获取频谱
                 that.analyser.connect(audio.destination);  //链接喇叭
                 audioBufferSouceNode.start(0);
+                that.parseMusic();
                 setInterval(function(){
+                    if(!State.gameBegin){
+                        audioBufferSouceNode.stop();
+                        return false;
+                    }
 			    	that.parseMusic();
-			    },1000);
+			    },300);
             })
         }
         request.send();
@@ -67,13 +72,19 @@ class LoadingMusic extends egret.Sprite {
     private parseMusic(){
         let array = new Uint8Array(this.analyser.frequencyBinCount);
     	let val;
+        let num = 0;
 		this.analyser.getByteFrequencyData(array);
-		 for(let i = 0;i<array.length;i++){
+        
+		
+         for(let i = 0;i<array.length;i++){
 		 	val = array[i];
 		 	if(val>240){
-					this.callback&&this.callback();
-					return true;
+		 			num++;
 			}
 		 }
+		 if(num>6){
+		 	this.callback&&this.callback();
+		 }
+
     }
 }

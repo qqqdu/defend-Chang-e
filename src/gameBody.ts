@@ -6,15 +6,18 @@ class gameBody extends egret.Sprite{
     private timer : egret.Timer;
     private back : any;
     private LoadingMusic:LoadingMusic;
+    private gameInf:gameInf;
     private rabbits: Array<Rabbit>= [];
+    private audioHit:AudioHit;
     private lockCommon:number;
+    
     static relWidth: number;
     static relHeight: number;
     static listenObj: Array<any> = []; //listen clock function
     static topSet:number;
     public constructor() {
         super();
-        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.begining,this);
+        //this.addEventListener(egret.Event.ADDED_TO_STAGE,this.begining,this);
     }
     
     private begining(){
@@ -23,11 +26,16 @@ class gameBody extends egret.Sprite{
         this.width  = this.height =  this.stage.stageWidth;
         //this.y = gameBody.topSet= this.stage.stageHeight-this.height;
         this.y = 240;
+        this.audioHit = new AudioHit();
+        this.gameInf = new gameInf();
         this.LoadingMusic = new LoadingMusic();
+        this.addChild(this.gameInf);
+        this.addChild(this.audioHit);
         this.drawBack();
         this.addChange();
         this.addDoors();
         this.beginGame();
+        State.gameBegin = true;
         egret.startTick(this.onTicker, this);
     }
     private drawBack(){
@@ -38,15 +46,6 @@ class gameBody extends egret.Sprite{
         back.touchEnabled = true;
         back.addEventListener( egret.TouchEvent.TOUCH_TAP, this.onTouch, this );
         this.addChild(back);
-    }
-    private biliBack(){
-        this.back.graphics.beginFill(0x212121);
-        this.back.graphics.drawRect(0,0,this.stage.stageWidth,this.stage.stageWidth);
-        this.back.graphics.endFill();
-        let timer = setTimeout(()=>{
-            this.drawBack();
-            clearTimeout(timer);    
-        },500);
     }
     private addChange(){
         this.changE = new Change();
@@ -77,6 +76,7 @@ class gameBody extends egret.Sprite{
         let rabbit = null;
         if(this.lockCommon===direction){  // last num is this one
             this.addRabbit();
+            return false;
         }
         rabbit = new Rabbit(direction,type);
         this.lockCommon = direction;
@@ -92,6 +92,8 @@ class gameBody extends egret.Sprite{
         })
     }
     public moveMe(rabbit){
+        if(!rabbit.life) //rabbit was died
+            return;
         switch(rabbit.direction){
             case 0:
                 rabbit.y+=rabbit.speed;
@@ -113,22 +115,38 @@ class gameBody extends egret.Sprite{
         this.changE.cakes.forEach((cake,cIndex)=>{
          
             if(checkHitFun(obj,cake)){ //cake hit rabbit
-                this.rabbitKilled(obj,index);
+                this.rabbitKilled(obj,index,true);
                 this.changE.cakeKilled(cake,cIndex);
             }
         });
         
         if(hitTestFun(obj,this.changE)){ //hit chang'e
-            this.rabbitKilled(obj,index);
-            //this.biliBack();
+            this.rabbitKilled(obj,index,false);
         }
         return;
     }
-    private rabbitKilled(obj,index){
-        if(obj.parent!=this)
-            return;
-        this.removeChild(obj);
+    private rabbitKilled(obj,index,who){  //if who is true 
+        
+        if(obj.type){ //right
+            who?this.gameInf.reduceLife():this.gameInf.addScore();
+        }else{
+            who?this.gameInf.addScore():this.gameInf.reduceLife();
+            if(State.life===0){
+                this.gameOver();
+                return;
+            }
+        }
+        this.audioHit.play();
+        obj.killAni(()=>{
+            if(obj.parent)
+                this.removeChild(obj);
+        })
         this.rabbits.splice(index,1);
+    }
+    private gameOver(){
+        State.gameBegin = false;
+        this.removeChildren();
+        this.rabbits.length = 0;
     }
     private onTouch(ev){
         let [x,y] = [ev.stageX,ev.stageY-this.y];

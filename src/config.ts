@@ -16,7 +16,7 @@ class Config{
             height : max
         },{
             x : relWidth/2-max/2,
-            y : relHeight+max,
+            y : relHeight+100,
             width : max,
             height : min
         },{

@@ -5,10 +5,13 @@ class Rabbit extends egret.Sprite{
     public back:any;
     public parent:Change;
     public directionConfig;
-    public speed=1;
+    public speed=2;
     public type; //true is good rabbit else bad
+    public life:Boolean =true;
     private _mcData;
     private _mcTexture;
+    private audioHit:AudioHit;
+     
     private configType = {
         "bad" : {
             json : "badL.json",
@@ -35,7 +38,7 @@ class Rabbit extends egret.Sprite{
     }
     private drawRabbit(){
         let direction = this.direction;
-        this.x = this.directionConfig[direction].x;
+        this.x = this.directionConfig[direction].x+10;
         this.y = this.directionConfig[direction].y;
         this.width = this.directionConfig[direction].width;
         this.height = this.directionConfig[direction].height;
@@ -85,25 +88,25 @@ class Rabbit extends egret.Sprite{
         role =  new egret.MovieClip(mcDataFactory.generateMovieClipData("move"));
         role.scaleX = .25;
         role.scaleY = .25;
+        role.x = 0;
+        role.y = 0;
         role.width = this.width;
         role.height = this.height;
         if(!this.type&&this.direction===3)
             role.skewY = 180;
         if(this.type&&this.direction===1)
             role.skewY = 180;
-        // width = this.image.width;
-        // height = this.image.height;
-        // this.image.x = this.width/2 - this.image.width/2;
-        // this.image.y = this.height/2 - this.image.height/1.5;
         role.frameRate = 6;
         this.addChild(role);
         role.gotoAndPlay(0,-1);
-      
     }
  
-    private killAni(){
-        this.back.graphics.beginfill(0xc00);
-        this.back.graphics.endFill();
+    private killAni(callback){
+        this.life = false;
+        setTimeout(function(){
+            callback&&callback();
+        },300)
+        
     }
     private initDoorsConfig(){
         this.directionConfig = Config.initDoorsConfig(gameBody.relWidth,gameBody.relHeight,this.max,this.min)

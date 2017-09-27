@@ -1,75 +1,86 @@
 {
 	"groups": [
 		{
-			"keys": "bg_jpg,egret_icon_png,description_json,change_png,music_mp3,cake_PNG,back_PNG,goodL_json,badL_json,badL_png,badLeft_png,goodL_png,hit_mp3",
+			"keys": "description_json,back_PNG,badL_json,badL_png,cake_PNG,changE_json,changE_png,doors_json,egret_icon_png,goodL_json,goodL_png,heart_png,heartDed_png,hit_mp3,music_mp3",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "bg_jpg",
-			"type": "image",
-			"url": "assets/bg.jpg"
-		},
-		{
-			"name": "egret_icon_png",
-			"type": "image",
-			"url": "assets/egret_icon.png"
-		},
-		{
-			"name": "description_json",
+			"url": "config/description.json",
 			"type": "json",
-			"url": "config/description.json"
+			"name": "description_json"
 		},
 		{
-			"name": "change_png",
+			"url": "assets/back.PNG",
 			"type": "image",
-			"url": "assets/change.png"
+			"name": "back_PNG"
 		},
 		{
-			"name": "music_mp3",
+			"url": "assets/badL.json",
+			"type": "json",
+			"name": "badL_json"
+		},
+		{
+			"url": "assets/badL.png",
+			"type": "image",
+			"name": "badL_png"
+		},
+		{
+			"url": "assets/cake.PNG",
+			"type": "image",
+			"name": "cake_PNG"
+		},
+		{
+			"url": "assets/changE.json",
+			"type": "json",
+			"name": "changE_json"
+		},
+		{
+			"url": "assets/changE.png",
+			"type": "image",
+			"name": "changE_png"
+		},
+		{
+			"url": "assets/doors.json",
+			"type": "sheet",
+			"name": "doors_json",
+			"subkeys": "botto,left,right,top"
+		},
+		{
+			"url": "assets/egret_icon.png",
+			"type": "image",
+			"name": "egret_icon_png"
+		},
+		{
+			"url": "assets/goodL.json",
+			"type": "json",
+			"name": "goodL_json"
+		},
+		{
+			"url": "assets/goodL.png",
+			"type": "image",
+			"name": "goodL_png"
+		},
+		{
+			"url": "assets/heart.png",
+			"type": "image",
+			"name": "heart_png"
+		},
+		{
+			"url": "assets/heartDed.png",
+			"type": "image",
+			"name": "heartDed_png"
+		},
+		{
+			"url": "assets/hit.mp3",
 			"type": "sound",
-			"url": "assets/music.mp3"
+			"name": "hit_mp3"
 		},
 		{
-			"name": "cake_PNG",
-			"type": "image",
-			"url": "assets/cake.PNG"
-		},
-		{
-			"name": "back_PNG",
-			"type": "image",
-			"url": "assets/back.PNG"
-		},
-		{
-			"name": "goodL_json",
-			"type": "json",
-			"url": "assets/goodL.json"
-		},
-		{
-			"name": "badL_json",
-			"type": "json",
-			"url": "assets/badL.json"
-		},
-		{
-			"name": "badL_png",
-			"type": "image",
-			"url": "assets/badL.png"
-		},
-		{
-			"name": "badLeft_png",
-			"type": "image",
-			"url": "assets/badLeft.png"
-		},
-		{
-			"name": "goodL_png",
-			"type": "image",
-			"url": "assets/goodL.png"
-		},
-		{
-			"name": "hit_mp3",
+			"url": "assets/music.mp3",
 			"type": "sound",
-			"url": "assets/hit.mp3"
+			"name": "music_mp3"
 		}
 	]
 }

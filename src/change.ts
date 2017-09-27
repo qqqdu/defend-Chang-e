@@ -1,12 +1,16 @@
 class Change extends egret.Sprite{
-    public width:number = 50;
-    public height:number = 50;
-    public life = 1; //是否存活
+    public width:number = 102;
+    public height:number = 115;
+    public score:number= 0;
     public hitRabbit = 0;
     public direction = 0;
     public cakes : Array<Cake> = [];
     private speed:number = 10;
     private image:egret.Bitmap = new egret.Bitmap();
+    private PNGS='changE.png'; 
+    private JSONS='changE.json';
+    private _mcData;
+    private _mcTexture;
     public constructor(){
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawChange,this);
@@ -23,15 +27,54 @@ class Change extends egret.Sprite{
         this.addImage();
     }
     private addImage(){
-        let width,height;
-        this.image.texture = RES.getRes('change_png');
-        this.image.width = this.image.width/2;
-        this.image.height = this.image.height/2;
-        width = this.image.width;
-        height = this.image.height;
-        this.image.x = this.width/2 - this.image.width/2;
-        this.image.y = this.height/2 - this.image.height/1.5;
-        this.addChild(this.image);
+        this.load(this.initMovieClip);
+    }
+    private load(callback:Function):void {
+        var count:number = 0;
+        var self = this;
+        var check = function () {
+            count++;
+            if (count == 2) {
+                callback.call(self);
+            }
+        }
+        
+        var loader = new egret.URLLoader();
+        loader.addEventListener(egret.Event.COMPLETE, function loadOver(e) {
+            var loader = e.currentTarget;
+
+            this._mcTexture = loader.data;
+            
+            check();
+        }, this);
+        loader.dataFormat = egret.URLLoaderDataFormat.TEXTURE;
+        var request = new egret.URLRequest("./resource/assets/"+self.PNGS);
+        loader.load(request);
+        
+        var loader = new egret.URLLoader();
+        loader.addEventListener(egret.Event.COMPLETE, function loadOver(e) {
+            var loader = e.currentTarget;
+
+            this._mcData = JSON.parse(loader.data);
+            
+            check();
+        }, this);
+        loader.dataFormat = egret.URLLoaderDataFormat.TEXT;
+        var request = new egret.URLRequest("./resource/assets/"+self.JSONS);
+        loader.load(request);
+    }
+    private initMovieClip():void {
+        var mcDataFactory = new egret.MovieClipDataFactory(this._mcData, this._mcTexture);
+        var role:egret.MovieClip;
+        role =  new egret.MovieClip(mcDataFactory.generateMovieClipData("change"));
+        
+        role.x = 0;
+        role.y = 0;
+        role.scaleX = .5;
+        role.scaleY = .5;
+        role.frameRate = 5;
+        this.addChild(role);
+        role.gotoAndPlay(0,-1);
     }
     private _time;
     private onTicker(timeStamp:number) {
