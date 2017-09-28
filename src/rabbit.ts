@@ -5,7 +5,7 @@ class Rabbit extends egret.Sprite{
     public back:any;
     public parent:Change;
     public directionConfig;
-    public speed=2;
+    public speed=3;
     public type; //true is good rabbit else bad
     public life:Boolean =true;
     private _mcData;

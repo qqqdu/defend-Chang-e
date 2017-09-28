@@ -23,9 +23,18 @@ section{
 	left: 0px;
 	z-index: 1;
 }
+section:nth-child(1){
+	z-index: 99;
+	display: none;
+
+}
+canvas{
+	display: none;
+}
 
 .Index_2{
-	background: #5f4ac3;
+	background: #937cfd;
+
 }
 .text{
 	background:url(../img/words.png) no-repeat;
@@ -43,7 +52,7 @@ section{
 	height: 387px;
 	background: url(../img/changeBk.png);
 	position: relative;
-    top: 100px;
+    top: 200px;
     left: -100px;
     animation:changE 2s;
 	animation-fill-mode: forwards;
@@ -52,11 +61,20 @@ section{
 section .star, .star2{
 	width: 100%;
 	height: 100%;
-	background-image:url(../img/star.png);
+	
 	background-repeat: no-repeat;
 	position: absolute;
 	top: 0;
 	background-size: 100% 100%;	
+}
+.moon{
+	width: 100%;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-delay: 1s;
+	-webkit-animation:moon 2s;
+	position: fixed;
+	left: 0;
+	transform:translateY(-10px)
 }
 
 section .content{
@@ -70,15 +88,18 @@ section .content{
 	
 }
 .happy{
-	width: 30%;
-    position: relative;
-    top: 50px;
-    left: 30px;
+	
+    width: 30%;
+    position: fixed;
+    right: 0;
+    top: 30px;
 }
 .humben{
-	position: relative;
+	position: absolute;
     color: white;
-    top: 300px;
+    top: 200px;
+    left: 50%;
+    transform:translateX(-50%);
     width: 80%;
     margin: 0 auto;
     text-indent: 2em;
@@ -87,84 +108,10 @@ section .content{
     line-height: 30px;
     overflow: hidden;
 }
-.arrow{
-	width: 91px;
-	height: 65px;
-	display: block;
-	background-repeat: no-repeat;
-	background-size: cover;
-	position: fixed;
-	bottom: 30px;
-	left: 50%;
-	margin-left: -45.5px;
-	-webkit-animation: arrow 1s;
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-iteration-count:infinite;
-	animation: arrow 1s;
-	animation-fill-mode: forwards;
-	animation-iteration-count:infinite;
-	z-index: 10;
-}
 
 
-section.moveIn{
-	-webkit-animation:moveIn 2s;
-	animation:moveIn 2s;
-	animation-fill-mode: forwards;
-	-webkit-animation-fill-mode: forwards;
-}
-section.moveOut .content div:nth-of-type(1){
-	-webkit-animation: boomOut 1s;
-	-webkit-animation-fill-mode: forwards;
-	animation: boomOut 1s;
-	animation-fill-mode: forwards;
-}
-section.moveOut .content div:nth-of-type(2){
-	-webkit-animation: textOut 2s;
-	-webkit-animation-fill-mode: forwards;
-	animation: textOut 2s;
-	animation-fill-mode: forwards;
-}
-section.moveOut .content div:nth-of-type(3){
-	animation: qingOut 1s;
-	-webkit-animation: qingOut 1s;
-	
-}
-section.moveOut .star{
-	animation: starOut 1s;
-	animation-fill-mode: forwards;
-	-webkit-animation: starOut 1s;
-	-webkit-animation-fill-mode: forwards;
-}
 
-section.moveOut .table{
-	animation: table 2s;
-	animation-fill-mode: forwards;
-	-webkit-animation: table 2s;
-	-webkit-animation-fill-mode: forwards;
-}
-section.moveOut{
-	animation: moveOut 2s;
-	-webkit-animation: moveOut 2s;
-	animation-fill-mode: forwards;
-	-webkit-animation-fill-mode: forwards;
-}
-section.moveOut_1{
-	animation: moveOut_1 2s;
-	-webkit-animation: moveOut_1 2s;
-	animation-fill-mode: forwards;
-	-webkit-animation-fill-mode: forwards;
-}
 
-section.moveIn_1{
-
-	animation: moveIn_1 1s;
-	-webkit-animation: moveIn_1 1s;
-	animation-fill-mode: forwards;
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-delay: 0s;
-	animation-delay: 0s;
-}
 
 .withMe{
 	width: 200%;
@@ -185,12 +132,7 @@ section.moveIn_1{
 	left: 30px;
 	opacity: 0;
 }
-.moon{
-	position: fixed;
-	top: -300px;
-	width: 100%;
-	opacity: 0;
-}
+
 
 .findFriend{
 	width: 100px;
@@ -198,14 +140,14 @@ section.moveIn_1{
 	background:#e91e63;
 	position: fixed;
 	left: 10%;
-	bottom: 10%;
+	bottom: 20px;
 	color: white;
 	border-radius: 10px;
 	line-height: 30px;
 	text-align: center;
 	border:1px solid black;
 	font-size: 15px;
-	opacity: 0;
+
 }
 .singHit{
 	width: 100px;
@@ -213,14 +155,14 @@ section.moveIn_1{
 	background:#f30b2d;
 	position: fixed;
 	right: 10%;
-	bottom: 10%;
+	bottom: 20px;
 	color: white;
 	border-radius: 10px;
 	line-height: 30px;
 	text-align: center;
 	border:1px solid black;
 	font-size: 15px;
-	opacity: 0;
+	
 }
  section.moveIn_1 .plan{
 	-webkit-animation: plan_1 2s;
@@ -257,12 +199,7 @@ section.moveIn_1 .rocker{
 	animation-fill-mode: forwards;
 
 }
-section.moveIn_1 .moon{
-	-webkit-animation:moon 2s;
-	-webkit-animation-fill-mode: forwards;
-	animation:moon 2s;
-	animation-fill-mode: forwards;
-}
+
 
 section.moveOut_1 .withMe{
 	-webkit-animation:widthMeOut 2s;
@@ -270,12 +207,7 @@ section.moveOut_1 .withMe{
 	animation:widthMeOut 2s;
 	animation-fill-mode: forwards;
 }
-section.moveOut_1 .moon{
-	-webkit-animation:moonOut 2s;
-	-webkit-animation-fill-mode: forwards;
-	animation:moonOut 2s;
-	animation-fill-mode: forwards;
-}
+
 section.moveOut_1 .findFriend{
 	-webkit-animation:singHitOut 2s;
 	animation:singHitOut 2s;
@@ -330,150 +262,43 @@ section.moveOut_1 .rocker{
 	background:#4091dc;
 }
 
-.friendCode{
-	width: 70%;
-	height: 300px;
-	background:#ff5722;
-	position: absolute;
-	top: 50%;
-	margin-top: -100px;
-	margin-left: 15%;
-	z-index: 10;
-	border-radius: 10px;
-}
-.friendCode .codeHead{
-	width: 100%;
-	height: 50px;
-	line-height: 50px;
-	text-align: center;
-	color: white;
-	font-size: 30px;
-	position: relative;
-}
-.codeHead span{
-	display: block;
-	width: 50px;
-	height: 50px;
-	top:0;
-	-webkit-transform:rotate(45deg);
-	transform:rotate(45deg);
-	font-size: 50px;
-	position: absolute;
-	right: 0px;
-}
-.friendCode .codeInput{
-	width: 100%;
-	height: 180px;
-	text-align: center;
-}
-.codeInput .code{
-	width: 80%;
-	height: 80px;
-	background:white;
-	margin-top: 20px;
-	font-size: 30px;
-	color: #ccc;
-	z-index: 999;
-	-webkit-user-select:text;
-}
-.codeInput span{
-	display: block;
-	text-align: center;
-	font-size: 20px;
-	margin-top: 10px;
-	color: #ccc;
-	line-height: 20px;
-}
-.friendCode .codeOk{
-	width: 100%;
-	height: 70px;
-	font-size: 30px;
-	color: white;
-	text-align: center;
-	background: #ff9800;
-	line-height: 70px;
-	border-bottom-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-}
-.gameTable{
-	text-align: center;
-	
-}
-.gameTable .connectRad{
-	width: 105px;
-	height: 50px;
-	padding:none;
-	position: absolute;
-	top: 50%;
+.ending{
+	width: 228px;
+	height: 364px;
+	background: url(../img/ending.png);
+	background-position: -90px -28px;
+	position: fixed;
 	left: 50%;
-	margin-left: -52.5px;
+	top: 50%;
+	margin-left: -114px;
+	margin-top: -182px;
+	z-index: 99;
+	box-sizing: border-box;
+	padding-top: 180px;
 	text-align: center;
+	font-size: 16px;
 	display: none;
 }
-.connectRad li{
-	display: inline-block;
-	width: 30px;
+.input{
+	width: 100%;
 	height: 30px;
-	background:white;
-	border-radius: 50%;
+	position: absolute;
+	display: flex;
+	align-items:center;
+	bottom: 20px;
+}
+.btn{
+	width: 30px;
+	margin: 0 auto;
+	height: 30px;
+	background-size: 100% 100%;
 	
-	position: absolute;
-	left: 0;
+}
+.again{
+	background-image: url(../img/again.png);
 
 }
-.connectRad li:nth-of-type(2){
-	left: 35px;
-}
-.connectRad li:nth-of-type(3){
-	left: 70px;
-}
-.connectRad span{
-	position: absolute;
-	width: 100%;
-	text-align: center;
-	bottom: -30px;
-	left:0px;
-	color: white;
-}
-
-
- .gameHead{
-	width: 200px;
-	height: 200px;
+.sort{
+	background-image: url(../img/sort.png);
 	
-	position: absolute;
-	top: 10px;
-	
-	display: block;
-	text-align: left;
-	padding-left: 20px;
-	font-size: 30px;
-	line-height: 50px;
-	color: #ccc;
-}
- .gameHeadRight{
-		width: 200px;
-	height: 200px;
-	
-	position: absolute;
-	top: 10px;
-	right: 0px;
-
-	text-align: left;
-	padding-left: 20px;
-	font-size: 30px;
-	line-height: 50px;
-	color: #ccc;
-}
-
-#levelTo{
-	width: 100%;
-	height: 40px;
-	position: absolute;
-	top: 600px;
-	font-size: 40px;
-	line-height: 50px;
-	color: #ff9800;
-	font-weight: bold;
-	text-align: center;
 }

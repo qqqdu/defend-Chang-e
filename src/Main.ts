@@ -121,12 +121,17 @@ class Main extends egret.DisplayObjectContainer {
     private createGameScene() {
      
        var key:string = "GY_ENRET_PARTTERN";
-      
-       this.gameBody = new gameBody();
-       this.background = new backGround();
+     
+      document.querySelector('.singHit').addEventListener('touchend',()=>{
+          
+            this.gameBody = new gameBody();
+            this.background = new backGround();
+            this.addChild(this.background);
+            this.addChild(this.gameBody);
+            document.querySelector('canvas').style.display = 'block';
+            document.querySelectorAll('section')[0]['style'].display = "none";
+      })
        
-       this.addChild(this.background);
-       this.addChild(this.gameBody);
        
        
     }

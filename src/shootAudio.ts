@@ -20,7 +20,7 @@ class AudioHit extends egret.Sprite {
         var sound: egret.Sound = this._sound = new egret.Sound();;
         //sound 加载完成监听
         sound.addEventListener(egret.Event.COMPLETE, function (e: egret.Event) {
-            this.play();
+            //this.play();
         }, this);
 
         sound.load("resource/assets/hit.mp3");

@@ -9,6 +9,11 @@
     <meta name="screen-orientation" content="portrait"/>
     <meta name="x5-fullscreen" content="true"/>
     <meta name="360-fullscreen" content="true"/>
+    <script type="text/javascript">
+        document.getElementsByTagName('html')[0].style.fontSize = document.documentElement.clientWidth/20+'px';
+    </script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/keyframes.css">
     <style>
         html, body {
             -ms-touch-action: none;
@@ -18,6 +23,51 @@
             margin: 0;
             height: 100%;
         }
+        li{
+            list-style: none;
+        }
+        .score{
+            width: 100%;
+            height: 48px;
+            position: fixed;
+            top: 0;
+            background:rgba(0,0,0,.5);
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        .hearts{
+            display: flex;
+            align-items: center;   
+        }
+        .score li{
+            display: flex;
+            height: 100%;
+            align-items: center;
+            box-sizing: border-box;
+            padding:10px;
+            font-size: .5rem;
+        }
+        .score li:nth-child(1){width: 8rem;}
+        .score li:nth-child(2){width: 6rem;}
+        .score li:nth-child(3){width: 6rem;}
+        .score .hearts span{
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+        span.heart{
+            background-image: url('./resource/assets/heart.png');
+        }
+        span.heartDed{
+            background-image: url('./resource/assets/heartDed.png');
+        }
+        .num,.time{
+            font-size: .8rem;
+        }
+
     </style>
 
     <!--这个标签为通过egret提供的第三方库的方式生成的 javascript 文件。删除 modules_files 标签后，库文件加载列表将不会变化，请谨慎操作！-->
@@ -27,7 +77,6 @@
 	<script egret="lib" src="libs/modules/game/game.js" src-release="libs/modules/game/game.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
-	<script egret="lib" src="promise/promise.js" src-release="promise/promise.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -35,16 +84,20 @@
 
     <!--这个标签会被替换为项目中所有的 javascript 文件。删除 game_files 标签后，项目文件加载列表将不会变化，请谨慎操作！-->
     <!--game_files_start-->
-	<script egret="game" src="bin-debug/cakes.js"></script>
+	<script egret="game" src="bin-debug/gameInf.js"></script>
+	<script egret="game" src="bin-debug/background.js"></script>
 	<script egret="game" src="bin-debug/change.js"></script>
 	<script egret="game" src="bin-debug/checkHit.js"></script>
 	<script egret="game" src="bin-debug/config.js"></script>
 	<script egret="game" src="bin-debug/doors.js"></script>
 	<script egret="game" src="bin-debug/gameBody.js"></script>
-	<script egret="game" src="bin-debug/gameInf.js"></script>
+	<script egret="game" src="bin-debug/cakes.js"></script>
 	<script egret="game" src="bin-debug/LoadingUI.js"></script>
 	<script egret="game" src="bin-debug/Main.js"></script>
+	<script egret="game" src="bin-debug/music.js"></script>
 	<script egret="game" src="bin-debug/rabbit.js"></script>
+	<script egret="game" src="bin-debug/shootAudio.js"></script>
+	<script egret="game" src="bin-debug/state.js"></script>
 	<!--game_files_end-->
 </head>
 <body>
@@ -55,12 +108,35 @@
          data-scale-mode="showAll"
          data-frame-rate="30"
          data-content-width="640"
-         data-content-height="1136"
+         data-content-height="1066"
          data-show-paint-rect="false"
          data-multi-fingered="2"
          data-show-fps="false" data-show-log="false"
          data-show-fps-style="x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9">
     </div>
+ 
+        <section class="Index_2">
+            <div class="star2">
+                <img class="moon" src="./img/moon.png">
+                <div class="changE"></div>
+                <img src="./img/happy.png" class="happy"/>
+                <div class="humben"></div>
+            </div>
+            <div class="findFriend ">关于游戏</div>
+            <div class="singHit ">守护嫦娥</div>
+        </section>
+    <div class="ending">
+        <div class="words">
+                <p>您的分数：50</p>
+                <p>击败了全国90%的人</p>
+                <p>获得嫦娥妹妹的香吻一枚</p>
+        </div>
+        <div class="input">
+            <div class="btn again"></div>
+            <div class="btn sort"></div>
+        </div>
+    </div>
+    
     <script>
         /**
          * {
@@ -70,6 +146,111 @@
          * }
          **/
         egret.runEgret({renderMode:"webgl", audioType:0,antialias:true});
+    </script>
+    <script>
+var page = 0;
+var pageClass = ["moveOut","moveOut_1"];
+var pageClassInf = ["moveIn","moveIn_1"];
+var section = document.getElementsByTagName('section');
+var startY;
+var humbenS = `中秋将至，月球上的兔子们听说嫦娥发月饼吃，纷纷来讨要，白兔们是嫦娥的好闺蜜，
+嫦娥当然要温柔的将月饼递在它们手里，可黑兔就不一样了，它们无恶不作，平日里，
+总欺负善良单纯的白兔们，还把月亮咬的坑坑洼洼的，现在又来捣乱。用月饼把它
+们击退吧！！！`;
+let onoff = true;
+function addTextWords(){
+    if(!onoff)
+        return;
+    onoff = false;
+    let i = 0;
+    let humben = document.querySelector('.humben');
+    setInterval(function(){
+        let str = '';
+        if(i<humbenS.length){
+            str=humbenS.substring(i,i+1);
+        }
+        humben.append(str);
+        i++;
+    },60);
+}
+var fun1 = function(ev){
+			var ev = ev || window.event;
+			ev.preventDefault();
+			startY =  ev.changedTouches[0].clientY;
+		}
+var fun2 = function(ev){
+			var ev = ev || window.event;
+			var y =  ev.changedTouches[0].clientY;
+			if(y<startY){
+					if(pageClass.length-1 > page){
+							section[page].className += " " + pageClass[page];	
+							removeClass(section[page],pageClassInf[page]);	
+							removeClass(section[page+1],pageClass[page+1]);
+							section[page+1].className += " " + pageClassInf[page+1];
+                            section[page+1].style.display = 'block';
+							page++;
+                            if(page===1){
+                                addTextWords();
+                                
+                            }
+							if(page==pageClass.length)
+								{
+			
+									}
+						}
+				}
+			if(y>startY){
+					if(page!=0){
+						page--;
+							section[page].className += " " + pageClassInf[page];
+							section[page+1].className += " " + pageClass[page+1];
+							removeClass(section[page],pageClass[page]);
+							removeClass(section[page+1],pageClassInf[page+1]);	
+					}
+				}
+		}
+function addEvent(){
+		document.addEventListener("touchstart",fun1,false);
+		document.addEventListener("touchend",fun2,false);
+	}
+
+function cancelEvent(){
+		document.removeEventListener("touchstart",fun1,false);
+		document.removeEventListener("touchend",fun2,false);
+}
+
+	var findFriend =document.getElementsByClassName('findFriend')[0];
+	var singHit = document.getElementsByClassName("singHit")[0];
+	var arrow = document.getElementsByClassName("arrow")[0];
+
+	addEvent();
+	findFriend.addEventListener("touchend",function(){
+         WeixinJSBridge.invoke('shareTimeline',{ 
+        "img_url":imgUrl, 
+        //"img_width":"640", 
+        //"img_height":"640", 
+        "link":link, 
+        "desc": desc, 
+        "title":title 
+    });  
+		cancelEvent();
+	},false);
+	// singHit.addEventListener("touchend",function(){
+	//     cancelEvent();
+ //        document.querySelector('.page').style.display = "none";
+	// },false);
+
+
+function hasClass(obj, cls) {  
+    return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));  
+}  
+function removeClass(obj, cls) {  
+    if (hasClass(obj, cls)) {  
+        var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');  
+        obj.className = obj.className.replace(reg, ' ');  
+
+    }  
+}  
     </script>
 </body>
 </html>

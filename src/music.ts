@@ -30,11 +30,13 @@ const url = './resource/assets/music.mp3';
 
 class LoadingMusic extends egret.Sprite {
     private buffer:Object;
-    private audio =  new window["AudioContext"]();
+    private audio;
     private analyser;
     public callback:Function;
     public constructor() {
-        super();
+        super();  
+        window["AudioContext"] = window["AudioContext"] || window["webkitAudioContext"] || window["mozAudioContext"] || window["msAudioContext"];
+        this.audio =  new window["AudioContext"]();
         this.loadMusic();
     }
     private createMusic():void {
@@ -64,7 +66,7 @@ class LoadingMusic extends egret.Sprite {
                         return false;
                     }
 			    	that.parseMusic();
-			    },300);
+			    },500);
             })
         }
         request.send();
@@ -78,12 +80,12 @@ class LoadingMusic extends egret.Sprite {
 		
          for(let i = 0;i<array.length;i++){
 		 	val = array[i];
-		 	if(val>240){
-		 			num++;
+		 	if(val>210){
+		 			this.callback&&this.callback();
 			}
 		 }
 		 if(num>6){
-		 	this.callback&&this.callback();
+		 	
 		 }
 
     }

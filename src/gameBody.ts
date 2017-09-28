@@ -17,7 +17,11 @@ class gameBody extends egret.Sprite{
     static topSet:number;
     public constructor() {
         super();
-        //this.addEventListener(egret.Event.ADDED_TO_STAGE,this.begining,this);
+        this.addEventListener(egret.Event.ADDED_TO_STAGE,this.begining,this);
+        document.querySelector('.again').addEventListener('click',()=>{
+            this.begining();
+            document.querySelector('.ending')['style'].display='none';
+        });
     }
     
     private begining(){
@@ -74,6 +78,7 @@ class gameBody extends egret.Sprite{
         let direction = Math.floor(Math.random()*4);
         let type = Math.random()>0.8?true:false;
         let rabbit = null;
+       
         if(this.lockCommon===direction){  // last num is this one
             this.addRabbit();
             return false;
@@ -147,6 +152,8 @@ class gameBody extends egret.Sprite{
         State.gameBegin = false;
         this.removeChildren();
         this.rabbits.length = 0;
+        document.querySelector('.ending')['style'].display='block';
+        
     }
     private onTouch(ev){
         let [x,y] = [ev.stageX,ev.stageY-this.y];
