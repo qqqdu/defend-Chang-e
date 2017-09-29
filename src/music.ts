@@ -32,7 +32,9 @@ class LoadingMusic extends egret.Sprite {
     private buffer:Object;
     private audio;
     private analyser;
+    private audioBufferSouceNode;
     public callback:Function;
+    private timer;
     public constructor() {
         super();  
         window["AudioContext"] = window["AudioContext"] || window["webkitAudioContext"] || window["mozAudioContext"] || window["msAudioContext"];
@@ -49,26 +51,34 @@ class LoadingMusic extends egret.Sprite {
         request.open('GET', url, true); //配置好请求类型，文件路径等
         request.responseType = 'arraybuffer'; //配置数据返回类型
         // 一旦获取完成，对音频进行进一步操作，比如解码
-        request.onload = function() {
-            // that.buffer = request.response;
-            console.log( request.response);
-            audio.decodeAudioData(request.response,function(buffer){
-                that.analyser = audio.createAnalyser();
-                var audioBufferSouceNode = audio.createBufferSource();
-                audioBufferSouceNode.buffer = buffer;
-                audioBufferSouceNode.connect(that.analyser);  //获取频谱
-                that.analyser.connect(audio.destination);  //链接喇叭
-                audioBufferSouceNode.start(0);
-                that.parseMusic();
-                setInterval(function(){
-                    if(!State.gameBegin){
-                        audioBufferSouceNode.stop();
-                        return false;
-                    }
-			    	that.parseMusic();
-			    },500);
-            })
+        
+        let fn = function(){
+                request.onload = function() {
+                // that.buffer = request.response;
+                    audio.decodeAudioData(request.response,function(buffer){
+                        that.analyser = audio.createAnalyser();
+                        that.audioBufferSouceNode = audio.createBufferSource();
+                        that.audioBufferSouceNode.buffer = buffer;
+                        that.audioBufferSouceNode.connect(that.analyser);  //获取频谱
+                        that.analyser.connect(that.audio.destination);  //链接喇叭
+                        that.audioBufferSouceNode.start(0);
+                        that.parseMusic();
+                        that.timer = setInterval(function(){
+                            if(!State.gameBegin){
+                                that.audioBufferSouceNode.stop();
+                                clearInterval(that.timer);
+                                return false;
+                            }
+                            that.parseMusic();
+                        },500);
+                        that.audioBufferSouceNode.onended=()=>{
+                            if(State.gameBegin)
+                                that.loadMusic();
+                        }
+                    })
+                }
         }
+        fn();
         request.send();
     }
     private parseMusic(){
@@ -89,4 +99,5 @@ class LoadingMusic extends egret.Sprite {
 		 }
 
     }
+    
 }

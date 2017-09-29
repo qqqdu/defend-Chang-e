@@ -2,13 +2,13 @@ class gameInf extends egret.Sprite{
     private hearts;
     private scores;
     private HTMLPAGE;
+    private timer;
     public constructor(){
         super();
         this.addHTML();
         this.hearts = document.querySelectorAll('.hearts span');
         this.scores = document.querySelector('.score .num')
-        //this.addEventListener(egret.Event.ADDED_TO_STAGE,this.drawCake,this);
-    }
+    }   
     private addHTML(){
         this.HTMLPAGE = `<div class="score">
                             <li>
@@ -37,21 +37,33 @@ class gameInf extends egret.Sprite{
         let frag = document.createElement("div");
         frag.innerHTML = this.HTMLPAGE;
         document.querySelector('body').appendChild(frag);
+        this.timerFn();
     }
-    private drawCake(){
-        var back: egret.Shape = new egret.Sprite();
-        back.graphics.beginFill(0x1f1f1f,0);
-        back.graphics.drawRect(0,0,this.stage.stageWidth,this.height);
-        back.graphics.endFill();
-        this.x  = 0;
-         this.y = 0;
-        this.width = this.stage.stageWidth;
-        this.addChild(back);
+    public initInf(){
+        this.timerFn();
+        document.querySelector('.hearts').innerHTML =  `<span class="heart"></span>
+                                                        <span class="heart"></span>
+                                                        <span class="heart"></span>`;
+         document.querySelector('.score .num').innerHTML = '0';  
+         document.querySelector('.score .time').innerHTML = '42';   
+         this.hearts = document.querySelectorAll('.hearts span'); 
+    }
+    private timerFn(){
+        let i = 0;
+        clearInterval(this.timer);
+        this.timer = setInterval(()=>{
+            if(!State.gameBegin)
+                clearInterval(this.timer);
+            document.querySelector('.score .time').innerHTML = i.toString(); 
+            i++;
+        },1000);
     }
     public reduceLife(){
+        console.log(State.life);
         if(State.life===0)
             return;
         State.life--;
+        
         this.hearts[State.life].setAttribute('class','heartDed');
     }
     public addScore(){

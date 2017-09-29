@@ -131,6 +131,12 @@ class Main extends egret.DisplayObjectContainer {
             document.querySelector('canvas').style.display = 'block';
             document.querySelectorAll('section')[0]['style'].display = "none";
       })
+      document.querySelector('.mask').addEventListener('click',()=>{
+        document.querySelector('.mask')['style'].display='none';
+        });
+        document.querySelector('.findFriend').addEventListener('click',()=>{
+            document.querySelector('.mask')['style'].display='block';
+        });
        
        
        
