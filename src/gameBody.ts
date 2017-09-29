@@ -18,22 +18,28 @@ class gameBody extends egret.Sprite{
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.begining,this);
+        this.loadStaticFn();
+    }
+    private initDate(){
+        State.life = 3;
+        State.score = 0;
+    }
+    private loadStaticFn(){
+        this.LoadingMusic = new LoadingMusic();
         document.querySelector('.again').addEventListener('click',()=>{
             this.begining();
             document.querySelector('.ending')['style'].display='none';
         });
+        this.gameInf = new gameInf();
+        this.addChild(this.gameInf);
     }
-    
     private begining(){
-        
+        this.initDate();
         gameBody.relWidth = gameBody.relHeight = 
         this.width  = this.height =  this.stage.stageWidth;
-        //this.y = gameBody.topSet= this.stage.stageHeight-this.height;
-        this.y = 240;
+        this.y = 200;
         this.audioHit = new AudioHit();
-        this.gameInf = new gameInf();
-        this.LoadingMusic = new LoadingMusic();
-        this.addChild(this.gameInf);
+        
         this.addChild(this.audioHit);
         this.drawBack();
         this.addChange();

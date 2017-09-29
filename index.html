@@ -77,6 +77,7 @@
 	<script egret="lib" src="libs/modules/game/game.js" src-release="libs/modules/game/game.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
+	<script egret="lib" src="promise/promise.js" src-release="promise/promise.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -108,7 +109,7 @@
          data-scale-mode="showAll"
          data-frame-rate="30"
          data-content-width="640"
-         data-content-height="1066"
+         data-content-height="960"
          data-show-paint-rect="false"
          data-multi-fingered="2"
          data-show-fps="false" data-show-log="false"
@@ -134,6 +135,7 @@
         <div class="input">
             <div class="btn again"></div>
             <div class="btn sort"></div>
+            <div class="btn share"></div>
         </div>
     </div>
     
@@ -173,84 +175,6 @@ function addTextWords(){
         i++;
     },60);
 }
-var fun1 = function(ev){
-			var ev = ev || window.event;
-			ev.preventDefault();
-			startY =  ev.changedTouches[0].clientY;
-		}
-var fun2 = function(ev){
-			var ev = ev || window.event;
-			var y =  ev.changedTouches[0].clientY;
-			if(y<startY){
-					if(pageClass.length-1 > page){
-							section[page].className += " " + pageClass[page];	
-							removeClass(section[page],pageClassInf[page]);	
-							removeClass(section[page+1],pageClass[page+1]);
-							section[page+1].className += " " + pageClassInf[page+1];
-                            section[page+1].style.display = 'block';
-							page++;
-                            if(page===1){
-                                addTextWords();
-                                
-                            }
-							if(page==pageClass.length)
-								{
-			
-									}
-						}
-				}
-			if(y>startY){
-					if(page!=0){
-						page--;
-							section[page].className += " " + pageClassInf[page];
-							section[page+1].className += " " + pageClass[page+1];
-							removeClass(section[page],pageClass[page]);
-							removeClass(section[page+1],pageClassInf[page+1]);	
-					}
-				}
-		}
-function addEvent(){
-		document.addEventListener("touchstart",fun1,false);
-		document.addEventListener("touchend",fun2,false);
-	}
-
-function cancelEvent(){
-		document.removeEventListener("touchstart",fun1,false);
-		document.removeEventListener("touchend",fun2,false);
-}
-
-	var findFriend =document.getElementsByClassName('findFriend')[0];
-	var singHit = document.getElementsByClassName("singHit")[0];
-	var arrow = document.getElementsByClassName("arrow")[0];
-
-	addEvent();
-	findFriend.addEventListener("touchend",function(){
-         WeixinJSBridge.invoke('shareTimeline',{ 
-        "img_url":imgUrl, 
-        //"img_width":"640", 
-        //"img_height":"640", 
-        "link":link, 
-        "desc": desc, 
-        "title":title 
-    });  
-		cancelEvent();
-	},false);
-	// singHit.addEventListener("touchend",function(){
-	//     cancelEvent();
- //        document.querySelector('.page').style.display = "none";
-	// },false);
-
-
-function hasClass(obj, cls) {  
-    return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));  
-}  
-function removeClass(obj, cls) {  
-    if (hasClass(obj, cls)) {  
-        var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');  
-        obj.className = obj.className.replace(reg, ' ');  
-
-    }  
-}  
-    </script>
+</script>
 </body>
 </html>
