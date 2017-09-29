@@ -58,18 +58,19 @@ app.get('/token',function(req,res){
     }else{
         res.send('mismatch');
     }
-});```  
+});
+```  
 如果保存成功，则服务器配置完成。  
 - 获取access_token  
 access_token就是每个api必须的字符串，每隔两个小时刷新一次，所以后台逻辑需要每隔两个小时请求一次access_token  
 然后进行全局保存。  
-请求路径是 `api.weixin.qq.com`
-请求参数是`grant_type=client_credential&appid=appid&secret=secret`  
+请求路径是 'api.weixin.qq.com'
+请求参数是'grant_type=client_credential&appid=appid&secret=secret'  
 grant_type是固定的不用改变，appid就是你的开发者id，secret是你的开发者密码，可以在微信进行重置得到。  
 以下是实现代码：
 ```
-const URL = "api.weixin.qq.com";
-const path = '/cgi-bin/token?grant_type=client_credential&appid=appid&secret=secret';
+const URL = "api.weixin.qq.com";  
+const path = "/cgi-bin/token?grant_type=client_credential&appid=appid&secret=secret";
 let access_token;
 let http = require('https');
 let qs = require('querystring');
