@@ -76,7 +76,14 @@ section .star, .star2{
 	left: 0;
 	transform:translateY(-10px)
 }
-
+.title{
+	width: 398px;
+	height: 400px;
+	background: url(../img/title.png);
+	position: absolute;
+	left: -100px;
+    top: 20px;
+}
 section .content{
 	width: 430px;
 	height: 430px;
@@ -278,6 +285,26 @@ section.moveOut_1 .rocker{
 	text-align: center;
 	font-size: 16px;
 	display: none;
+}
+.mask{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 999;
+	left: 0;
+	display: none;
+}
+.help{
+	width: 90%;
+	height: auto;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform:translate(-50%,-50%);	
+}
+.help img{
+	width: 100%;
 }
 .input{
 	width: 100%;

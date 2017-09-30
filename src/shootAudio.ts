@@ -1,9 +1,14 @@
 
 
 class AudioHit extends egret.Sprite {
-     private _pauseTime: number = 30;
+    private _pauseTime: number = 30;
     private _sound: egret.Sound;
     private _channel: egret.SoundChannel;
+
+    private _aMusic : egret.Sound;
+
+    private _waMusic : egret.Sound;
+
     constructor() {
         super();
 
@@ -22,6 +27,10 @@ class AudioHit extends egret.Sprite {
         this._sound = new egret.Sound();;
         //sound 加载完成监听
         this._sound.load("resource/assets/hit.mp3");
+        this._aMusic= new egret.Sound();
+        this._aMusic.load("resource/assets/aaa.mp3");
+        this._waMusic = new egret.Sound();
+        this._waMusic.load("resource/assets/wa.mp3")
     }
     //播放
     public play():void {
@@ -29,7 +38,12 @@ class AudioHit extends egret.Sprite {
         console.log('play')
         this._channel = this._sound.play(0, 1);
         this._channel.volume=1;
-       
+    }
+    public playAMucis(){
+        this._aMusic.play(0,1);
+    }
+    public playwaMucis(){
+        this._waMusic.play(0,1);
     }
     //停止
     private stop():void {

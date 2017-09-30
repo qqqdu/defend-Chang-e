@@ -23,12 +23,15 @@ class gameBody extends egret.Sprite{
     private initDate(){
         State.life = 3;
         State.score = 0;
+        State.speed = 2;
         State.gameBegin = true;
     }
     private loadStaticFn(){
         this.LoadingMusic = new LoadingMusic();
         this.gameInf = new gameInf();
         this.addChild(this.gameInf);
+        this.audioHit = new AudioHit();
+        this.addChild(this.audioHit);
         document.querySelector('.again').addEventListener('click',()=>{
             this.initDate();
             this.LoadingMusic = new LoadingMusic();
@@ -42,10 +45,8 @@ class gameBody extends egret.Sprite{
     private begining(){
         gameBody.relWidth = gameBody.relHeight = 
         this.width  = this.height =  this.stage.stageWidth;
-        this.y = 200;
-        this.audioHit = new AudioHit();
-        
-        this.addChild(this.audioHit);
+        this.y = 150;
+        this.x = -20;
         this.drawBack();
         this.addChange();
         this.addDoors();
@@ -138,6 +139,9 @@ class gameBody extends egret.Sprite{
         
         if(hitTestFun(obj,this.changE)){ //hit chang'e
             this.rabbitKilled(obj,index,false);
+            if(!obj.type){
+                this.audioHit.playAMucis();
+            }
         }
         return;
     }
@@ -145,14 +149,18 @@ class gameBody extends egret.Sprite{
         
         if(obj.type){ //right
             who?this.gameInf.reduceLife():this.gameInf.addScore();
+            if(!who) // be kill change'Event
+                this.audioHit.playwaMucis();
+            else
+                this.audioHit.play();
         }else{
             who?this.gameInf.addScore():this.gameInf.reduceLife();
             if(State.life===0){
                 this.gameOver();
                 return;
             }
+             this.audioHit.play();
         }
-        this.audioHit.play();
         obj.killAni(()=>{
             if(obj.parent)
                 this.removeChild(obj);
@@ -163,8 +171,10 @@ class gameBody extends egret.Sprite{
         State.gameBegin = false;
         this.removeChildren();
         this.rabbits.length = 0;
+         
         document.querySelector('.ending')['style'].display='block';
-        
+        document.querySelector('.ending .scoreNum').innerHTML = State.score.toString();
+        document.querySelector('.ending .scoreTime').innerHTML = this.gameInf.time;
     }
     private onTouch(ev){
         let [x,y] = [ev.stageX,ev.stageY-this.y];

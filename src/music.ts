@@ -92,11 +92,10 @@ class LoadingMusic extends egret.Sprite {
 		 	val = array[i];
 		 	if(val>210){
 		 			this.callback&&this.callback();
+                     return;
 			}
 		 }
-		 if(num>6){
-		 	
-		 }
+		 
 
     }
     

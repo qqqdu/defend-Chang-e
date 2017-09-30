@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "description_json,back_PNG,badL_json,badL_png,cake_PNG,changE_json,changE_png,doors_json,egret_icon_png,goodL_json,goodL_png,heart_png,heartDed_png,hit_mp3,music_mp3",
+			"keys": "description_json,back_PNG,badL_json,badL_png,cake_PNG,changE_json,changE_png,doors_json,egret_icon_png,goodL_json,goodL_png,heart_png,heartDed_png,hit_mp3,aaa_mp3",
 			"name": "preload"
 		}
 	],
@@ -78,9 +78,9 @@
 			"name": "hit_mp3"
 		},
 		{
-			"url": "assets/music.mp3",
+			"name": "aaa_mp3",
 			"type": "sound",
-			"name": "music_mp3"
+			"url": "assets/aaa.mp3"
 		}
 	]
 }

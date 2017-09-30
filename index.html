@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Egret</title>
+    <title>快来和小伙伴儿们一起守护嫦娥吧</title>
     <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="full-screen" content="true"/>
@@ -77,7 +77,6 @@
 	<script egret="lib" src="libs/modules/game/game.js" src-release="libs/modules/game/game.min.js"></script>
 	<script egret="lib" src="libs/modules/res/res.js" src-release="libs/modules/res/res.min.js"></script>
 	<script egret="lib" src="libs/modules/tween/tween.js" src-release="libs/modules/tween/tween.min.js"></script>
-	<script egret="lib" src="promise/promise.js" src-release="promise/promise.min.js"></script>
 	<!--modules_files_end-->
 
     <!--这个标签为不通过egret提供的第三方库的方式使用的 javascript 文件，请将这些文件放在libs下，但不要放在modules下面。-->
@@ -119,6 +118,7 @@
         <section class="Index_2">
             <div class="star2">
                 <img class="moon" src="./img/moon.png">
+                <div class="title"></div>
                 <div class="changE"></div>
                 <img src="./img/happy.png" class="happy"/>
                 <div class="humben"></div>
@@ -128,17 +128,23 @@
         </section>
     <div class="ending">
         <div class="words">
-                <p>您的分数：50</p>
-                <p>击败了全国90%的人</p>
+                <p>您的分数：<span class="scoreNum">0</span></p>
+                <p>守护总时长：<span class="scoreTime">0</span></p>
                 <p>获得嫦娥妹妹的香吻一枚</p>
         </div>
         <div class="input">
             <div class="btn again"></div>
+            <!--
             <div class="btn sort"></div>
             <div class="btn share"></div>
+            -->
         </div>
     </div>
-    
+    <div class="mask">
+        <div class="help">
+            <img src="./img/help.jpg" />
+        </div>
+    </div>
     <script>
         /**
          * {
@@ -150,31 +156,54 @@
         egret.runEgret({renderMode:"webgl", audioType:0,antialias:true});
     </script>
     <script>
-var page = 0;
-var pageClass = ["moveOut","moveOut_1"];
-var pageClassInf = ["moveIn","moveIn_1"];
-var section = document.getElementsByTagName('section');
-var startY;
-var humbenS = `中秋将至，月球上的兔子们听说嫦娥发月饼吃，纷纷来讨要，白兔们是嫦娥的好闺蜜，
-嫦娥当然要温柔的将月饼递在它们手里，可黑兔就不一样了，它们无恶不作，平日里，
-总欺负善良单纯的白兔们，还把月亮咬的坑坑洼洼的，现在又来捣乱。用月饼把它
-们击退吧！！！`;
-let onoff = true;
-function addTextWords(){
-    if(!onoff)
-        return;
-    onoff = false;
-    let i = 0;
-    let humben = document.querySelector('.humben');
-    setInterval(function(){
-        let str = '';
-        if(i<humbenS.length){
-            str=humbenS.substring(i,i+1);
+/* 封装ajax函数
+ * @param {string}opt.type http连接的方式，包括POST和GET两种方式
+ * @param {string}opt.url 发送请求的url
+ * @param {boolean}opt.async 是否为异步请求，true为异步的，false为同步的
+ * @param {object}opt.data 发送的参数，格式为对象类型
+ * @param {function}opt.success ajax发送并接收成功调用的回调函数
+ */
+    function ajax(opt) {
+        opt = opt || {};
+        opt.method = opt.method.toUpperCase() || 'POST';
+        opt.url = opt.url || '';
+        opt.async = opt.async || true;
+        opt.data = opt.data || null;
+        opt.success = opt.success || function () {};
+        var xmlHttp = null;
+        if (XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
         }
-        humben.append(str);
-        i++;
-    },60);
-}
+        else {
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+        }var params = [];
+        for (var key in opt.data){
+            params.push(key + '=' + opt.data[key]);
+        }
+        var postData = params.join('&');
+        if (opt.method.toUpperCase() === 'POST') {
+            xmlHttp.open(opt.method, opt.url, opt.async);
+            xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+            xmlHttp.send(postData);
+        }
+        else if (opt.method.toUpperCase() === 'GET') {
+            xmlHttp.open(opt.method, opt.url + '?' + postData, opt.async);
+            xmlHttp.send(null);
+        } 
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                opt.success(xmlHttp.responseText);
+            }
+        };
+    }
+    ajax({
+        method: 'get',
+        url: '/clickFn',
+        data: '',
+        success: function (response) {
+            
+        }
+    });
 </script>
 </body>
 </html>

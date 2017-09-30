@@ -5,7 +5,7 @@ class Rabbit extends egret.Sprite{
     public back:any;
     public parent:Change;
     public directionConfig;
-    public speed=3;
+    public speed=2;
     public type; //true is good rabbit else bad
     public life:Boolean =true;
     private _mcData;
@@ -28,6 +28,7 @@ class Rabbit extends egret.Sprite{
         super();
         this.direction = direction;
         this.type = type;
+        this.speed = State.speed;
         if(this.type){
             [this.JSONS,this.PNGS] = [this.configType["good"].json,this.configType["good"].png];
         }else{
